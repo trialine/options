@@ -61,10 +61,10 @@ class QOptionLabelAdmin(KeyLockMixin, QOptionModelAdminTranslated):
 
 
 class QOptionTextAdmin(KeyLockMixin, QOptionModelAdminTranslated):
-    list_display = ('key', 'title')
+    list_display = ('key', 'title', 'notes')
     fieldsets = (
         (None, {
-            'fields': ('key', 'title', 'text')
+            'fields': ('key', 'notes', 'title', 'text')
         }),
     )
     formfield_overrides = qoptions_formfield_overrides

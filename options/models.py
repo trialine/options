@@ -85,6 +85,7 @@ class Label(models.Model):
 
 class Text(models.Model):
     key = models.CharField(_('Key'), max_length=50, unique=True)
+    notes = models.TextField(_('Notes'), default='', blank=True)
     title = models.CharField(_('Title'), max_length=256, blank=True)
     text = models.TextField(_('Text'))
 
