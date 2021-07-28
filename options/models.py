@@ -1,7 +1,8 @@
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import get_language
 from django.core.cache import cache
+from django.db import models
+from django.utils.html import strip_tags
+from django.utils.translation import get_language
+from django.utils.translation import ugettext_lazy as _
 
 
 class OptionCache(object):
@@ -105,3 +106,7 @@ class Text(models.Model):
             OptionCache.delete_all_langs(Text.cache_mask.format(self.key))
         except KeyError:
             pass
+
+    def get_notes_without_tags(self):
+        return strip_tags(self.notes)
+    get_notes_without_tags.short_description = 'Notes'

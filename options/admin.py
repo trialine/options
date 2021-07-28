@@ -61,7 +61,7 @@ class QOptionLabelAdmin(KeyLockMixin, QOptionModelAdminTranslated):
 
 
 class QOptionTextAdmin(KeyLockMixin, QOptionModelAdminTranslated):
-    list_display = ('key', 'title', 'notes')
+    list_display = ('key', 'title', 'get_notes_without_tags')
     fieldsets = (
         (None, {
             'fields': ('key', 'notes', 'title', 'text')
