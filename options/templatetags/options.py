@@ -94,8 +94,8 @@ def get_editable_text(context, key, title_var='text', as_var=None):
     Print title, text with link to admin site
     """
     title = get_text(context, key, title_var, as_var)
-    obj = Text.objects.get(key=key)
     if context.request.user.is_superuser:
+        obj = Text.objects.get(key=key)
         if as_var:
             context[title_var] = format_html(
                 "{} <a href='{}' target='_blank'>[Edit]</a>",
@@ -125,11 +125,11 @@ def get_editable_option(context, key, as_var=None, edit_variable=None):
     """
     value = get_option(context, key, as_var)
 
-    obj = Option.objects.get(key=key)
     if context.request.user.is_superuser:
+        obj = Option.objects.get(key=key)
         link_to_option = reverse('admin:options_option_change', args=[obj.pk])
         if edit_variable:
-            context[edit_variable] = format_html(f"<a href={link_to_option}>Edit</a>")
+            context[edit_variable] = format_html("<a href={}>Edit</a>", link_to_option)
             return ''
         return format_html(
             "{} <a href='{}' target='_blank'>[Edit]</a>",
