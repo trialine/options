@@ -119,7 +119,6 @@ def get_editable_text(context, key, title_var='text', as_var=None):
 
 @register.simple_tag(takes_context=True)
 def get_editable_option(context, key, as_var=None, edit_variable=None):
-    print(edit_variable)
     """
     Print option with link to admin site
     """
