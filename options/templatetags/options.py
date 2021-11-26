@@ -42,7 +42,7 @@ def _get_qoption_value(function, context, key, as_var):
     try:
         ret = function(key)
     except Exception:
-        ret = ""
+        ret = '', ''
 
     if as_var:
         context[as_var] = ret
@@ -87,6 +87,7 @@ def get_editable_text_title(context, key, text_var='text', as_var=None):
             reverse('admin:options_text_change', args=[obj.pk])
         )
     return title
+
 
 @register.simple_tag(takes_context=True)
 def get_editable_text(context, key, title_var='text', as_var=None):
