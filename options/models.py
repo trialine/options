@@ -45,7 +45,7 @@ class Option(models.Model):
     Options model
     """
     key = models.CharField(_('Key'), max_length=50, unique=True)
-    value = models.CharField(_('Value'), max_length=256)
+    value = models.CharField(_('Value'), max_length=256, blank=True)
 
     cache_mask = 'qo_o_{0}'
 
@@ -67,7 +67,7 @@ class Option(models.Model):
 
 class Label(models.Model):
     key = models.CharField(_('Key'), max_length=50, unique=True)
-    value = models.CharField(_('Value'), max_length=256)
+    value = models.CharField(_('Value'), max_length=256, blank=True)
 
     cache_mask = 'qo_l_{0}'
 
