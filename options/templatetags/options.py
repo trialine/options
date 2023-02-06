@@ -1,9 +1,13 @@
 from django import template
+from django.conf import settings
 from django.urls import reverse
 from django.utils.html import format_html, mark_safe
-from options.models import Label, Text, Option
 
-from ..functions import get_option as get_option_source, get_label as get_label_source, get_text as get_text_source
+from options.models import Label, Option, Text
+
+from ..functions import get_label as get_label_source
+from ..functions import get_option as get_option_source
+from ..functions import get_text as get_text_source
 
 register = template.Library()
 
@@ -137,3 +141,47 @@ def get_editable_option(context, key, as_var=None, edit_variable=None):
             link_to_option
         ), 'edit'
     return value
+
+
+OPTIONS_MULTISITE = getattr(settings, 'OPTIONS_MULTISITE', False)
+
+if OPTIONS_MULTISITE:
+
+    @register.simple_tag(takes_context=True)
+    def get_option_multisite(context, key, as_var=None):
+        return get_option(context, f"{key}_{settings.SITE_ID}", as_var)
+
+
+    @register.simple_tag(takes_context=True)
+    def get_label_multisite(context, key, as_var=None):
+        return get_label(context, f"{key}_{settings.SITE_ID}", as_var)
+
+
+    @register.simple_tag(takes_context=True)
+    def get_text_multisite(context, key, title_var='title', as_var=None):
+        return get_text(context, f"{key}_{settings.SITE_ID}", title_var, as_var)
+
+
+    @register.simple_tag(takes_context=True)
+    def get_text_title_multisite(context, key, text_var='text', as_var=None):
+        return get_text_title(context, f"{key}_{settings.SITE_ID}", text_var, as_var)
+
+
+    @register.simple_tag(takes_context=True)
+    def get_editable_option_multisite(context, key, as_var=None, edit_variable=None):
+        return get_editable_option(context, f"{key}_{settings.SITE_ID}", as_var, edit_variable)
+
+
+    @register.simple_tag(takes_context=True)
+    def get_editable_label_multisite(context, key, as_var=None):
+        return get_editable_label(context, f"{key}_{settings.SITE_ID}", as_var)
+
+
+    @register.simple_tag(takes_context=True)
+    def get_editable_text_multisite(context, key, title_var='text', as_var=None):
+        return get_editable_text(context, f"{key}_{settings.SITE_ID}", title_var, as_var)
+
+
+    @register.simple_tag(takes_context=True)
+    def get_editable_text_title_multisite(context, key, text_var='text', as_var=None):
+        return get_editable_text_title(context, f"{key}_{settings.SITE_ID}", text_var, as_var)

@@ -4,6 +4,15 @@ Options, Labels and standalone Texts for django admin. Administrator emails, pho
 
 qOptions package allows you to create records in database, wich you can use in your templates and views.
 
+Configuration
+-------------
+If you need multisite template tags suppers, define in settings.py OPTIONS_MULTISITE:
+
+```python
+# Options
+OPTIONS_MULTISITE = True
+```
+
 **Works with [django-modeltranslation](https://github.com/deschler/django-modeltranslation) and [django-tinymce](https://github.com/aljosa/django-tinymce)**
 
 ### To use modeltranslation:
@@ -81,3 +90,9 @@ Labels:
 ```html
 <span>{% get_editable_label 'your_text_key' %}</span>
 ```
+
+## Multisite variables and template tags
+
+Name space  - KEY_NAME_ID (where ID is your SITE_ID)
+
+Available multisite template tags: `get_option_multisite`, `get_label_multisite`, `get_text_multisite`, `get_text_title_multisite`, `get_editable_option_multisite`, `get_editable_label_multisite`, `get_editable_text_multisite`, `get_editable_text_title_multisite`
