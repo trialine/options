@@ -21,7 +21,7 @@ class OptionCache(object):
     @staticmethod
     def set(key, value):
         lang = get_language()
-        langs = cache.get(OptionCache.langs_cache_key, set())
+        langs = cache.get(OptionCache.langs_cache_key, set()) or set()
         langs.add(lang)
         cache.set(OptionCache.langs_cache_key, langs)
 
