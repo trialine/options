@@ -23,7 +23,8 @@ def _get_qoption_value(model, key, fail_silently, return_tuple=False):
         default = ''
     cache_key = model.cache_mask.format(key)
     value = OptionCache.get(cache_key)
-    if not value:
+
+    if value is None:
         try:
             opt = model.objects.get(key=key)
             if return_tuple:
