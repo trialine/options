@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Option, Label, Text
+from .models import Option, Label, Text, Image
 from django.conf import settings
 
 
@@ -70,6 +70,16 @@ class QOptionTextAdmin(KeyLockMixin, QOptionModelAdminTranslated):
     formfield_overrides = qoptions_formfield_overrides
 
 
+class QOptionImageAdmin(KeyLockMixin, admin.ModelAdmin):
+    list_display = ('key', 'image')
+    fieldsets = (
+        (None, {
+            'fields': ('key', 'image')
+        }),
+    )
+
+
 admin.site.register(Option, QOptionOptionAdmin)
 admin.site.register(Label,  QOptionLabelAdmin)
 admin.site.register(Text,   QOptionTextAdmin)
+admin.site.register(Image,  QOptionImageAdmin)

@@ -3,11 +3,12 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.html import format_html, mark_safe
 
-from options.models import Label, Option, Text
+from options.models import Label, Option, Text, Image
 
 from ..functions import get_label as get_label_source
 from ..functions import get_option as get_option_source
 from ..functions import get_text as get_text_source
+from ..functions import get_image as get_image_source
 
 register = template.Library()
 
@@ -40,6 +41,11 @@ def get_text_title(context, key, text_var='text', as_var=None):
         context[as_var] = title
         return ''
     return title
+
+
+@register.simple_tag(takes_context=True)
+def get_image(context, key, as_var=None):
+    return _get_qoption_value(get_image_source, context, key, as_var)
 
 
 def _get_qoption_value(function, context, key, as_var):
@@ -185,3 +191,8 @@ if OPTIONS_MULTISITE:
     @register.simple_tag(takes_context=True)
     def get_editable_text_title_multisite(context, key, text_var='text', as_var=None):
         return get_editable_text_title(context, f"{key}_{settings.SITE_ID}", text_var, as_var)
+
+
+    @register.simple_tag(takes_context=True)
+    def get_image_multisite(context, key, as_var=None):
+        return get_image(context, f"{key}_{settings.SITE_ID}", as_var)

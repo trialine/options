@@ -4,7 +4,7 @@ from .helpers import import_item
 from django.utils.html import strip_tags
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
-from .options_settings import OPTION_CLASS, TEXT_CLASS, LABEL_CLASS
+from .options_settings import OPTION_CLASS, TEXT_CLASS, LABEL_CLASS, IMAGE_CLASS
 
 
 class OptionCache(object):
@@ -117,6 +117,29 @@ class TextAbstract(models.Model):
     get_notes_without_tags.short_description = 'Notes'
 
 
+class ImageAbstract(models.Model):
+    key = models.CharField(_('Key'), max_length=50, unique=True)
+    image = models.ImageField(_('Image'), upload_to='options/', blank=True, null=True)
+
+    cache_mask = 'qo_i_{0}'
+
+    class Meta:
+        verbose_name = _('image')
+        verbose_name_plural = _('images')
+        ordering = ['key']
+        abstract = True
+
+    def __str__(self):
+        return self.key
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        try:
+            OptionCache.delete_all_langs(ImageAbstract.cache_mask.format(self.key))
+        except KeyError:
+            pass
+
+
 class Option(import_item(OPTION_CLASS) if OPTION_CLASS else OptionAbstract):
     pass
 
@@ -126,4 +149,7 @@ class Label(import_item(LABEL_CLASS) if LABEL_CLASS else LabelAbstract):
 
 
 class Text(import_item(TEXT_CLASS) if TEXT_CLASS else TextAbstract):
+    pass
+
+class Image(import_item(IMAGE_CLASS) if IMAGE_CLASS else ImageAbstract):
     pass
